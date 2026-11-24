@@ -429,7 +429,7 @@
     const r = await fetch(API + "?r=" + path.replace(/^\//, ""), { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify({ initData: tg?.initData || "", ...body }), redirect: "follow" });
     const j = await r.json().catch(() => ({}));
-    if (!r.ok || j.error) throw new Error(j.error || "Ошибка соединения");
+    if (!r.ok || j.error) throw new Error((j.error || "Ошибка соединения " + r.status) + (j.detail ? " — " + j.detail : ""));
     return j;
   }
 
