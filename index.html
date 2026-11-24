@@ -426,10 +426,10 @@
   const state = { svc: null, period: null, form: {}, asap: false, shot: null };
 
   async function api(path, body) {
-    const r = await fetch(API + path, { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ initData: tg?.initData || "", ...body }) });
+    const r = await fetch(API + "?r=" + path.replace(/^\//, ""), { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ initData: tg?.initData || "", ...body }), redirect: "follow" });
     const j = await r.json().catch(() => ({}));
-    if (!r.ok) throw new Error(j.error || "Ошибка соединения");
+    if (!r.ok || j.error) throw new Error(j.error || "Ошибка соединения");
     return j;
   }
 
